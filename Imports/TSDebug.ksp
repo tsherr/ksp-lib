@@ -1,4 +1,4 @@
-//----------------------TSVersion----------------------//
+//----------------------TSDebug----------------------//
 
 {Copyright (c) 2018 Toby Sherriff
 
@@ -21,8 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 Description:
-	This file contains helper functions for assembling and displaying a version number on the lower right corner of the performance view.
-
+	This file contains helper functions for debuggin KSP scripts
 Author: 
 	Toby Sherriff
 	www.tobysherriff.net
@@ -32,20 +31,11 @@ Version History:
 	v0.1 - Initial implementation
 }
 
-USE_CODE_IF_NOT(TS_VERSION_IMPORTED)
-	SET_CONDITION(TS_VERSION_IMPORTED)
+USE_CODE_IF_NOT(TS_DEBUG_IMPORTED)
+	SET_CONDITION(TS_DEBUG_IMPORTED)
 
-	//Creates a version number using version_string, and displays it in the bottom right corner of the performance view (specified by ui_height and ui_width)
-	macro CreateVersionInfo(version_string, ui_height, ui_width, font)
-		declare ui_label VersionInfo(0, 0)
-		VersionInfo -> width := 300
-		VersionInfo -> height := 15
-		VersionInfo -> x := ui_width - (VersionInfo -> width)
-		VersionInfo -> y := ui_height - (VersionInfo -> height) - 4
-		VersionInfo -> text_alignment := 2 //Right
-		VersionInfo -> font_type := font
-		VersionInfo -> hide := HIDE_PART_BG
-		VersionInfo -> text := version_string
+	macro debug(#msg#)
+		print("(" & ENGINE_UPTIME & " ms) [" & NI_CALLBACK_ID & "] " & #msg#)
 	end macro
 
-END_USE_CODE //USE_CODE_IF_NOT(TS_VERSION_IMPORTED)
+END_USE_CODE //USE_CODE_IF_NOT(TS_DEBUG_IMPORTED)

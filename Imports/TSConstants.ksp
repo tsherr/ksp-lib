@@ -37,27 +37,38 @@ USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)
 	
 	//Only import these constants if Koala isn't used, since Koala defines these too.
 	USE_CODE_IF_NOT(KOALA_IMPORTED)
-		define ON    := 1
-		define OFF   := 0
-		define YES   := 1
-		define NO    := 0
-		define TRUE  := 1
-		define FALSE := 0
-		define NONE  := -1
+		define ON             := 1
+		define OFF            := 0
+		define YES            := 1
+		define NO             := 0
+		define TRUE           := 1
+		define FALSE          := 0
+		define NONE           := -1
+		define 0_dB_12        := 631000 		//0 dB value for knobs with +12 dB max. Equals to 631000.
+		define 0_dB_24        := 397000 		//0 dB value for knobs with +24 dB max. Equals to 397000.
+		define _MAX_KSP_VALUE := 0x7FFFFFFF 	//Maximum value which Kontakt is able to process. Equals to 0x7FFFFFFF.
+		define _MIN_KSP_VALUE := 0x80000000 	//Minimum value which Kontakt is able to process. Equals to 0x80000000.
+		define MAX_ARRAY_SIZE := 32768 			//Maximum size of an array in Kontakt (32768).  //TODO: may have changed in 5.8
+		define MAX_GROUPS     := 4096			//Maximum amount of groups in Kontakt (4096).   //TODO: may have changed in 5.8
 	END_USE_CODE
 
     //General
 	define UNDEFINED                := -1
+	define MIN_KSP_VALUE			:= -2147483648
+	define 6_dB_12					:= 792850
 	
 	//GUI related
 	define KONTAKT_HEADER_HEIGHT_PX := 68
 	define KONTAKT_DEFAULT_WIDTH_PX := 633
+	define MAX_VALUE_EDIT_HEIGHT_PX	:= 18
 	
 	//MIDI related
 	define NUM_MIDI_KEYS            := 128
 	define NUM_KEY_NAMES            := 12
-	define MIN_VELOCITY             := 1
-	define MAX_VELOCITY             := 127
+	define MIN_MIDI_VALUE			:= 0
+	define MAX_MIDI_VALUE			:= 127
+	define MIN_MIDI_VELOCITY        := 1
+	define MAX_MIDI_VELOCITY        := MAX_MIDI_VALUE
 	
 	//Time related
 	define US_PER_MS                := 1000
@@ -73,6 +84,11 @@ USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)
 	define EP_MIN_VAL               := 0
 	define MAX_NUM_GROUPS           := 4096
 	define MAX_NUM_ZONES            := 131072 //Kontakt 5.4.0 +
+	define MAX_NUM_BUS_EFFECT_SLOTS := 8
+
+	//Frequency and tuning related
+	define MILLICENTS_PER_SEMITONE	:= 100000
+	define CENTS_PER_SEMITONE		:= 100
 	
 	//Engine parameter related
 	define EP_GENERIC_SEND          := 0
@@ -106,5 +122,25 @@ USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)
 	define SCRIPT_SLOT_3            := 2
 	define SCRIPT_SLOT_4            := 3
 	define SCRIPT_SLOT_5            := 4
+
+	//change_vol() related
+	define ABSOLUTE					:= 0
+	define RELATIVE					:= 1
+
+	//change_pan() related
+	define MAX_PAN_L				:= -1000
+	define MAX_PAN_R				:= 1000
+
+	//Pitch bend related
+	define KONTAKT_MAX_PITCH_BEND_RANGE := 12
+
+	//File selector related
+	define NO_EXTENSION:= 0
+	define WITH_EXTENSION := 1
+	define WHOLE_PATH := 2
+
+	//Sort() modes
+	define ASCENDING := 0
+	define DESCENDING := 1
 
 END_USE_CODE //USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)

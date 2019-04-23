@@ -1,0 +1,95 @@
+//----------------------TSRadioButton----------------------//
+
+{Copyright (c) 2018 Toby Sherriff
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Description:
+	An implementation of the standard radio-button control for KSP
+
+Author: 
+	Toby Sherriff
+	www.tobysherriff.net
+	toby@tobysherriff.net
+
+Version History:
+	v0.1 - Initial implementation
+}
+
+USE_CODE_IF_NOT(TS_RADIOBUTTONS_IMPORTED)
+	SET_CONDITION(TS_RADIOBUTTONS_IMPORTED)
+
+	{********************************************InitRadioButtons********************************************}
+	macro InitRadioButtons(#max_buttons#)
+
+		{------------------------CONSTANTS------------------------}
+		define UI_ID_INDEX := 0
+		define GROUP_INDEX := 1
+		declare const MAX_BUTTONS := #max_buttons#
+
+		{------------------------VARIABLES------------------------}
+		declare RadioGroupsMatrix[#max_buttons# * 2]
+		declare RadioButtonCount := 0
+		declare index := 0
+
+		property RadioGroups
+			function get(x, y) -> result
+				result := RadioGroupsMatrix[(x * 2) + y]
+			end function
+			function set(x, y, val)
+				RadioGroupsMatrix[(x * 2) + y] := val
+			end function
+		end property
+	end macro
+
+	macro AddButtonToRadioGroup(#button#, #group_num#)
+		if (RadioButtonCount < MAX_BUTTONS)
+			declare #button#_group := #group_num#
+			declare #button#_id := get_ui_id(#button#)
+			RadioGroups[RadioButtonCount, UI_ID_INDEX] := #button#_id
+			RadioGroups[RadioButtonCount, GROUP_INDEX] := #button#_group
+			inc(RadioButtonCount)
+		else
+			message("Warning: radio button limit exceeded; cannot create radio button " & #button# & "!")
+			hide_part(#button#, HIDE_WHOLE_CONTROL) //Kontakt will still declare the switch even though the first branch of the above if statement is never entered...
+		end if
+	end macro
+
+	macro SetRadioButton(#button#)
+		for index := 0 to (RadioButtonCount - 1)
+			if (RadioGroups[index, GROUP_INDEX] = #button#_group)
+				RadioGroups[index, UI_ID_INDEX] -> value := 0
+			end if
+		end for
+		#button#_id -> value := 1
+	end macro
+
+	macro OnRadioButton(#button#)
+		on ui_control(#button#)
+			SetRadioButton(#button#)
+			#button#_handler()
+		end on
+			function #button#_handler()
+	end macro
+
+	macro EndOnRadioButton
+		end function
+	end macro
+
+	END_USE_CODE //USE_CODE_IF_NOT(TS_RADIOBUTTONS_IMPORTED)
