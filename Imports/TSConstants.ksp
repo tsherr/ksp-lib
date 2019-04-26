@@ -35,32 +35,30 @@ Version History:
 USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)
 	SET_CONDITION(TS_CONSTANTS_IMPORTED)
 	
-	//Only import these constants if Koala isn't used, since Koala defines these too.
-	USE_CODE_IF_NOT(KOALA_IMPORTED)
-		define ON             := 1
-		define OFF            := 0
-		define YES            := 1
-		define NO             := 0
-		define TRUE           := 1
-		define FALSE          := 0
-		define NONE           := -1
-		define 0_dB_12        := 631000 		//0 dB value for knobs with +12 dB max. Equals to 631000.
-		define 0_dB_24        := 397000 		//0 dB value for knobs with +24 dB max. Equals to 397000.
-		define _MAX_KSP_VALUE := 0x7FFFFFFF 	//Maximum value which Kontakt is able to process. Equals to 0x7FFFFFFF.
-		define _MIN_KSP_VALUE := 0x80000000 	//Minimum value which Kontakt is able to process. Equals to 0x80000000.
-		define MAX_ARRAY_SIZE := 32768 			//Maximum size of an array in Kontakt (32768).  //TODO: may have changed in 5.8
-		define MAX_GROUPS     := 4096			//Maximum amount of groups in Kontakt (4096).   //TODO: may have changed in 5.8
-	END_USE_CODE
-
     //General
-	define UNDEFINED                := -1
-	define MIN_KSP_VALUE			:= -2147483648
-	define 6_dB_12					:= 792850
+	define UNDEFINED        := -1
+	define MIN_KSP_VALUE	:= -2147483648
+	define 6_dB_12			:= 792850
+	define ON               := 1
+	define OFF              := 0
+	define YES              := 1
+	define NO               := 0
+	define TRUE             := 1
+	define FALSE            := 0
+	define NONE             := -1
+	define 0_dB_12          := 631000 		//0 dB value for knobs with +12 dB max. Equals to 631000.
+	define 0_dB_24          := 397000 		//0 dB value for knobs with +24 dB max. Equals to 397000.
+	define _MAX_KSP_VALUE   := 0x7FFFFFFF 	//Maximum value which Kontakt is able to process. Equals to 0x7FFFFFFF.
+	define _MIN_KSP_VALUE   := 0x80000000 	//Minimum value which Kontakt is able to process. Equals to 0x80000000.
+	define MAX_ARRAY_SIZE   := 32768 			//< 5.8.0
+	define MAX_ARRAY_SIZE_5_8 := 1000000 		//>= 5.8.0
+	define MAX_GROUPS       := 4096			//Maximum amount of groups in Kontakt (4096).   //TODO                       : may have changed in 5.8
 	
 	//GUI related
 	define KONTAKT_HEADER_HEIGHT_PX := 68
 	define KONTAKT_DEFAULT_WIDTH_PX := 633
 	define MAX_VALUE_EDIT_HEIGHT_PX	:= 18
+	define MAX_NUM_CONTROLS_PER_TYPE := 512 // >= 5.8.0
 	
 	//MIDI related
 	define NUM_MIDI_KEYS            := 128

@@ -1,0 +1,65 @@
+{------------------------INIT AND GLOBAL------------------------}
+macro InitTSControls(#max_num_controls#, #show_debug_controls#)
+	declare NumControls := 0
+	declare AllControlIDs[#max_num_controls#] := (UNDEFINED)
+	declare RadioGroups[MAX_NUM_CONTROLS_PER_TYPE, 2] := (UNDEFINED)//[button_id, radio_group_id]
+	declare NumRadioButtons := 0
+	declare TSC_i := 0
+
+	if (#show_debug_controls# = TRUE)
+		//TODO
+	end if
+
+end macro
+
+macro StoreControl(#control#)
+	AllControlIDs[NumControls] := get_ui_id(#control#)
+	inc(NumControls)
+end macro
+
+{------------------------BUTTTON------------------------}
+macro CreateButton(#name#, #x#, #y#, #w#, #h#, #persistent#, #text#, #picture#)
+	declare ui_button #name#
+	#name# -> x := #x#
+	#name# -> y := #y#
+	#name# -> width := #w#
+	#name# -> height := #h#
+	#name# -> text := #text#
+	#name# -> picture := #picture#
+	if (#persistent# = TRUE)
+		make_persistent(#name#)
+	end if
+	
+	StoreControl(#name#)
+end macro
+
+{------------------------RADIO BUTTON------------------------}
+macro CreateRadioButton(#name#, #x#, #y#, #w#, #h#, #persistent#, #text#, #picture#, #radio_group#)
+	CreateButton(#name#, #x#, #y#, #w#, #h#, #persistent#, #text#, #picture#)
+	
+	declare #name#_radio_group := #radio_group#
+	RadioGroups[NumRadioButtons, 0] := get_ui_id(#name#)
+	RadioGroups[NumRadioButtons, 1] := #name#_radio_group
+	inc(NumRadioButtons)
+end macro
+
+macro SetRadioButton(#button#)
+	for TSC_i := 0 to RadioGroups.SIZE_D1 - 1
+		if (RadioGroups[TSC_i, 1] = #button#_radio_group)
+			RadioGroups[TSC_i, 0] -> value := FALSE
+		end if
+	end for
+	#button# := TRUE
+end macro
+
+macro OnRadioButton(#button#)
+	on ui_control(#button#)
+		SetRadioButton(#button#)
+		#button#_handler()
+	end on
+		function #button#_handler()
+end macro
+
+macro EndOnRadioButton
+	end function
+end macro
