@@ -48,8 +48,8 @@ USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)
 	define NONE             := -1
 	define 0_dB_12          := 631000 		//0 dB value for knobs with +12 dB max. Equals to 631000.
 	define 0_dB_24          := 397000 		//0 dB value for knobs with +24 dB max. Equals to 397000.
-	define _MAX_KSP_VALUE   := 0x7FFFFFFF 	//Maximum value which Kontakt is able to process. Equals to 0x7FFFFFFF.
-	define _MIN_KSP_VALUE   := 0x80000000 	//Minimum value which Kontakt is able to process. Equals to 0x80000000.
+	define MAX_KSP_VALUE   := 0x7FFFFFFF 	//Maximum value which Kontakt is able to process. Equals to 0x7FFFFFFF.
+	define MIN_KSP_VALUE   := 0x80000000 	//Minimum value which Kontakt is able to process. Equals to 0x80000000.
 	define MAX_ARRAY_SIZE   := 32768 			//< 5.8.0
 	define MAX_ARRAY_SIZE_5_8 := 1000000 		//>= 5.8.0
 	define MAX_GROUPS       := 4096			//Maximum amount of groups in Kontakt (4096).   //TODO                       : may have changed in 5.8

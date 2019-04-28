@@ -5,17 +5,63 @@ macro InitTSControls(#max_num_controls#, #show_debug_controls#)
 	declare RadioGroups[MAX_NUM_CONTROLS_PER_TYPE, 2] := (UNDEFINED)//[button_id, radio_group_id]
 	declare NumRadioButtons := 0
 	declare TSC_i := 0
+	declare CtrlDbg := #show_debug_controls#
 
-	if (#show_debug_controls# = TRUE)
-		//TODO
+	//Debug
+	declare ui_menu me_CtrlDbgCtrlSel
+	declare ui_menu me_CtrlDbgPropSel
+	declare ui_value_edit va_CtrlDbgPropDisp (MIN_KSP_VALUE, MAX_KSP_VALUE, 1)
+
+	if (CtrlDbg = FALSE)
+		me_CtrlDbgCtrlSel -> hide := HIDE_WHOLE_CONTROL
+		me_CtrlDbgPropSel -> hide := HIDE_WHOLE_CONTROL
+		va_CtrlDbgPropDisp -> hide := HIDE_WHOLE_CONTROL
+	else
+		add_menu_item(me_CtrlDbgPropSel, "x", CONTROL_PAR_POS_X)
+		add_menu_item(me_CtrlDbgPropSel, "y", CONTROL_PAR_POS_Y)
+		add_menu_item(me_CtrlDbgPropSel, "width", CONTROL_PAR_WIDTH)
+		add_menu_item(me_CtrlDbgPropSel, "height", CONTROL_PAR_HEIGHT)
+		me_CtrlDbgCtrlSel -> width := 200
+		va_CtrlDbgPropDisp -> text := ""
 	end if
 
 end macro
 
 macro StoreControl(#control#)
 	AllControlIDs[NumControls] := get_ui_id(#control#)
+
+	if (CtrlDbg = TRUE)
+		add_menu_item(me_CtrlDbgCtrlSel, "#control#", get_ui_id(#control#))
+	end if
+
 	inc(NumControls)
 end macro
+
+{------------------------DEBUG------------------------}
+macro MoveDebugContols(#x#, #y#)
+	me_CtrlDbgCtrlSel -> x := #x#
+	me_CtrlDbgCtrlSel -> y := #y#
+	me_CtrlDbgPropSel -> x := me_CtrlDbgCtrlSel -> x + me_CtrlDbgCtrlSel -> width + 10
+	me_CtrlDbgPropSel -> y := #y#
+	va_CtrlDbgPropDisp -> x := me_CtrlDbgPropSel -> x + me_CtrlDbgPropSel -> width + 10
+	va_CtrlDbgPropDisp -> y := #y#
+end macro
+
+on ui_control(me_CtrlDbgCtrlSel)
+	call UpdateDebugPropDisp()
+end on
+
+on ui_control(me_CtrlDbgPropSel)
+	call UpdateDebugPropDisp()
+end on
+
+on ui_control(va_CtrlDbgPropDisp)
+	set_control_par(get_menu_item_value(get_ui_id(me_CtrlDbgCtrlSel), me_CtrlDbgCtrlSel -> selected_item_idx), get_menu_item_value(get_ui_id(me_CtrlDbgPropSel), me_CtrlDbgPropSel -> selected_item_idx), va_CtrlDbgPropDisp)
+end on
+
+function UpdateDebugPropDisp()
+	va_CtrlDbgPropDisp -> value := get_control_par(get_menu_item_value(get_ui_id(me_CtrlDbgCtrlSel), me_CtrlDbgCtrlSel -> selected_item_idx), get_menu_item_value(get_ui_id(me_CtrlDbgPropSel), me_CtrlDbgPropSel -> selected_item_idx))
+end function
 
 {------------------------BUTTTON------------------------}
 macro CreateButton(#name#, #x#, #y#, #w#, #h#, #persistent#, #text#, #picture#)
