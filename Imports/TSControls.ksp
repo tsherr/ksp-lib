@@ -74,8 +74,18 @@ macro CreateButton(#name#, #x#, #y#, #w#, #h#, #persistent#, #text#, #picture#)
 	#name# -> picture := #picture#
 	if (#persistent# = TRUE)
 		make_persistent(#name#)
-	end if
-	
+	end if	
+	StoreControl(#name#)
+end macro
+
+macro CreateLabel(#name#, #x#, #y#, #w#, #h#, #text#, #picture#)
+	declare ui_label #name#(1, 1)
+	#name# -> x := #x#
+	#name# -> y := #y#
+	#name# -> width := #w#
+	#name# -> height := #h#
+	#name# -> text := #text#
+	#name# -> picture := #picture#
 	StoreControl(#name#)
 end macro
 
