@@ -5,7 +5,9 @@ macro InitTSControls(#max_num_controls#, #show_debug_controls#)
 	declare RadioGroups[MAX_NUM_CONTROLS_PER_TYPE, 2] := (UNDEFINED)//[button_id, radio_group_id]
 	declare NumRadioButtons := 0
 	declare TSC_i := 0
+	declare TSC_temp := 0
 	declare CtrlDbg := #show_debug_controls#
+	declare DefaultZLayer := DEFAULT_LAYER
 
 	//Debug
 	declare ui_menu me_CtrlDbgCtrlSel
@@ -25,6 +27,10 @@ macro InitTSControls(#max_num_controls#, #show_debug_controls#)
 		va_CtrlDbgPropDisp -> text := ""
 	end if
 
+end macro
+
+macro SetDefaultZLayer(#layer#)
+	DefaultZLayer := #layer#
 end macro
 
 macro StoreControl(#control#)
@@ -65,28 +71,52 @@ end function
 
 {------------------------BUTTTON------------------------}
 macro CreateButton(#name#, #x#, #y#, #w#, #h#, #persistent#, #text#, #picture#)
-	declare ui_button #name#
-	#name# -> x := #x#
-	#name# -> y := #y#
-	#name# -> width := #w#
-	#name# -> height := #h#
-	#name# -> text := #text#
-	#name# -> picture := #picture#
-	if (#persistent# = TRUE)
-		make_persistent(#name#)
-	end if	
-	StoreControl(#name#)
+	if (1=1) //Workaround for Kontakt's parser stack overflow bug
+		declare ui_button #name#
+		#name# -> x := #x#
+		#name# -> y := #y#
+		#name# -> width := #w#
+		#name# -> height := #h#
+		#name# -> text := #text#
+		#name# -> picture := #picture#
+		if (#persistent# = TRUE)
+			make_persistent(#name#)
+		end if	
+		#name# -> z_layer := DefaultZLayer
+		StoreControl(#name#)
+	end if
 end macro
 
 macro CreateLabel(#name#, #x#, #y#, #w#, #h#, #text#, #picture#)
-	declare ui_label #name#(1, 1)
-	#name# -> x := #x#
-	#name# -> y := #y#
-	#name# -> width := #w#
-	#name# -> height := #h#
-	#name# -> text := #text#
-	#name# -> picture := #picture#
-	StoreControl(#name#)
+	if (1=1) //Workaround for Kontakt's parser stack overflow bug
+		declare ui_label #name#(1, 1)
+		#name# -> x := #x#
+		#name# -> y := #y#
+		#name# -> width := #w#
+		#name# -> height := #h#
+		#name# -> text := #text#
+		#name# -> picture := #picture#
+		#name# -> z_layer := DefaultZLayer
+		StoreControl(#name#)
+	end if
+end macro
+
+macro CreateSlider(#name#, #x#, #y#, #w#, #h#, #min#, #max#, #default#, #persistent#, #mouse#, #picture#)
+	if (1=1) //Workaround for Kontakt's parser stack overflow bug
+		declare ui_slider #name#(#min#, #max#)
+		#name# -> x := #x#
+		#name# -> y := #y#
+		#name# -> width := #w#
+		#name# -> height := #h#
+		#name# -> default := #default#
+		#name# -> mouse_behaviour := #mouse#
+		#name# -> picture := #picture#
+		if (#persistent# = TRUE)
+			make_persistent(#name#)
+		end if
+		#name# -> z_layer := DefaultZLayer
+		StoreControl(#name#)
+	end if
 end macro
 
 {------------------------RADIO BUTTON------------------------}
@@ -107,6 +137,26 @@ macro SetRadioButton(#button#)
 	end for
 	#button# := TRUE
 end macro
+
+function SetRadioButtonID(button_id)
+	//First find the radio group assigned to this button id
+	TSC_temp := -1
+	TSC_i := 0
+	while TSC_temp = -1 or TSC_i < RadioGroups.SIZE_D1
+		if (RadioGroups[TSC_i, 0] = button_id)
+			TSC_temp := RadioGroups[TSC_i, 1]
+		end if
+		inc(TSC_i)
+	end while
+
+	//Then perform the state-switching
+	for TSC_i := 0 to RadioGroups.SIZE_D1 - 1
+		if (RadioGroups[TSC_i, 1] = TSC_temp)
+			RadioGroups[TSC_i, 0] -> value := FALSE
+		end if
+	end for
+	set_control_par(button_id, CONTROL_PAR_VALUE, TRUE)
+end function
 
 macro OnRadioButton(#button#)
 	on ui_control(#button#)
