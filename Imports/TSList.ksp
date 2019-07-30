@@ -1,3 +1,6 @@
+{------------------------TODO------------------------}
+//Add taskfunc-alternate versions of functions
+
 {-------------------------------------LIST OPERATIONS--------------------------}
 { -1 is always used to indicate an empty or invalid element}
 define TSLIST.EMPTY := -1
