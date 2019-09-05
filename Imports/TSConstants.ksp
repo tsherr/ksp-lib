@@ -52,9 +52,15 @@ USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)
 	define MIN_KSP_VALUE   := 0x80000000 	//Minimum value which Kontakt is able to process. Equals to 0x80000000.
 	define MAX_ARRAY_SIZE   := 32768 			//< 5.8.0
 	define MAX_ARRAY_SIZE_5_8 := 1000000 		//>= 5.8.0
-	define MAX_GROUPS       := 4096			//Maximum amount of groups in Kontakt (4096).   //TODO                       : may have changed in 5.8
+
+	//Groups and zones
+	define MAX_NUM_GROUPS       := 4096			//Maximum number of groups in Kontakt (4096).   //TODO                       : may have changed in 5.8
+	define MAX_NUM_ZONES		:= 131072
 	
 	//GUI related
+	define KONTAKT_MAX_UI_WIDTH_PX	:= 1000
+	define KONTAKT_MAX_UI_HEIGHT_PX := 750
+	define KONTAKT_MAX_UI_HEIGHT_WITH_HEADER_PX := 818
 	define KONTAKT_HEADER_HEIGHT_PX := 68
 	define KONTAKT_DEFAULT_WIDTH_PX := 633
 	define MAX_VALUE_EDIT_HEIGHT_PX	:= 18
@@ -121,7 +127,7 @@ USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)
 	define SCRIPT_SLOT_4            := 3
 	define SCRIPT_SLOT_5            := 4
 
-	//change_vol() related
+	//change_x() related
 	define ABSOLUTE					:= 0
 	define RELATIVE					:= 1
 
@@ -140,5 +146,10 @@ USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)
 	//Sort() modes
 	define ASCENDING := 0
 	define DESCENDING := 1
+
+	//Text alignment
+	define ALIGN_LEFT := 0
+	define ALIGN_CENTER := 1
+	define ALIGN_RIGHT := 2
 
 END_USE_CODE //USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)

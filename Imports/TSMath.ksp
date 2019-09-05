@@ -46,16 +46,15 @@ USE_CODE_IF_NOT(TS_MATH_IMPORTED)
 		us := (real_to_int(int_to_real(ms) * int_to_real(US_PER_MS)))
 	end function
 
-	//This function is now obsolute with Koala's math.scale
 	//Scales value in [rangemin, rangemax] to its equivalent position in [newmin, newmax]
 	function ScaleValue(value, rangemin, rangemax, newmin, newmax) -> newvalue
 
 		//TODO: something is not working properly here... can't reach newmax 
 		declare ~temp
 		//determine the new value as a percentage of the new range, then shift as needed
-		temp := (int_to_real(value - rangemin) / int_to_real(rangemax + 1 - rangemin))
-		temp := (temp * int_to_real(newmax + 1 - newmin))
-		newvalue := real_to_int(floor(int_to_real(newmin) + temp))
+		temp := (int_to_real(value - rangemin) / int_to_real(rangemax - rangemin))
+		temp := (temp * int_to_real(newmax - newmin))
+		newvalue := real_to_int(round(int_to_real(newmin) + temp))
 
 	end function
 
@@ -72,9 +71,11 @@ USE_CODE_IF_NOT(TS_MATH_IMPORTED)
 		end if
 	end function
 
+	/*
 	function RealRandom(min, max) -> result
 		result := math.scale(int_to_real(random(0, EP_MAX_VAL)), 0.0, int_to_real(EP_MAX_VAL), min, max)
 	end function
+	*/
 
 	//t, a, and b are real in [-1, 1]
 	macro EPXFade(t, {out} a, {out} b)
