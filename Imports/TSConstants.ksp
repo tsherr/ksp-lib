@@ -79,6 +79,7 @@ USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)
 	define US_PER_MINUTE            := 60000000
 	define CURRENT_BPM              := (US_PER_MINUTE / DURATION_QUARTER)
 	define US_PER_BEAT              := (US_PER_MINUTE / CURRENT_BPM)
+	define TICKS_PER_QUARTER		:= 960
 	
 	//Datatype related
 	define MAX_ARRAY_LENGTH         := 32768
