@@ -187,6 +187,18 @@ macro CreateMenu(#name#, #x#, #y#, #w#, #h#, #default#, #font#, #align#, #persis
 	StoreControl(#name#)
 end macro
 
+macro CreateLevelMeter(#name#, #x#, #y#, #w#, #h#, #group#, #slot#, #channel#, #bus#, #vertical#)
+	declare ui_level_meter #name#
+	#name# -> x := #x#
+	#name# -> y := #y#
+	#name# -> width := #w#
+	#name# -> height := #h#
+	#name# -> vertical := #vertical#
+	attach_level_meter(get_ui_id(#name#), #group#, #slot#, #channel#, #bus#)
+	#name# -> z_layer := DefaultZLayer
+	StoreControl(#name#)
+end macro
+
 {------------------------RADIO BUTTON------------------------}
 macro CreateRadioButton(#name#, #x#, #y#, #w#, #h#, #persistent#, #text#, #picture#, #radio_group#)
 	CreateButton(#name#, #x#, #y#, #w#, #h#, #persistent#, #text#, #picture#)
