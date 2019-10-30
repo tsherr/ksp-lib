@@ -46,6 +46,7 @@ USE_CODE_IF_NOT(TS_VERSION_IMPORTED)
 		VersionInfo -> font_type := font
 		VersionInfo -> hide := HIDE_PART_BG
 		VersionInfo -> text := version_string
+		VersionInfo -> z_layer := FRONT_LAYER
 	end macro
 
 END_USE_CODE //USE_CODE_IF_NOT(TS_VERSION_IMPORTED)

@@ -199,6 +199,18 @@ macro CreateLevelMeter(#name#, #x#, #y#, #w#, #h#, #group#, #slot#, #channel#, #
 	StoreControl(#name#)
 end macro
 
+macro CreateTextEdit(#name#, #x#, #y#, #w#, #h#, #text#, #picture#)
+	declare ui_text_edit @#name#
+	#name# -> x := #x#
+	#name# -> y := #y#
+	#name# -> width := #w#
+	#name# -> height := #h#
+	#name# -> text := #text#
+	#name# -> picture := #picture#
+	#name# -> z_layer := DefaultZLayer
+	StoreControl(#name#)
+end macro
+
 {------------------------RADIO BUTTON------------------------}
 macro CreateRadioButton(#name#, #x#, #y#, #w#, #h#, #persistent#, #text#, #picture#, #radio_group#)
 	CreateButton(#name#, #x#, #y#, #w#, #h#, #persistent#, #text#, #picture#)
