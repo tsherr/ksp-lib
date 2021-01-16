@@ -8,14 +8,17 @@ macro InitTSControls(#max_num_controls#, #show_debug_controls#)
 	declare TSC_temp := 0
 	declare CtrlDbg := #show_debug_controls#
 	declare DefaultZLayer := DEFAULT_LAYER
+	declare KnobParameterDisplayWidth := 75
+	declare KnobParameterDisplayFont := 1
+	declare ParameterDisplayTimeoutMS := 1000
 
 	//Debug
 	declare pers ui_menu me_CtrlDbgCtrlSel
 	declare ui_button bu_CtrlDbgCtrlSelPrev
 	declare ui_button bu_CtrlDbgCtrlSelNext
-	declare ui_menu me_CtrlDbgPropSel
+	declare pers ui_menu me_CtrlDbgPropSel
 	declare ui_value_edit va_CtrlDbgPropDisp (MIN_KSP_VALUE, MAX_KSP_VALUE, 1)
-
+	
 	if (CtrlDbg = FALSE)
 		me_CtrlDbgCtrlSel -> hide := HIDE_WHOLE_CONTROL
 		me_CtrlDbgPropSel -> hide := HIDE_WHOLE_CONTROL
@@ -35,11 +38,15 @@ macro InitTSControls(#max_num_controls#, #show_debug_controls#)
 		bu_CtrlDbgCtrlSelPrev -> width := 18
 		bu_CtrlDbgCtrlSelNext -> width := 18
 	end if
-
+	
 end macro
 
 macro SetDefaultZLayer(#layer#)
 	DefaultZLayer := #layer#
+end macro
+
+macro SetKnobParameterDisplayFont(#font#)
+	KnobParameterDisplayFont := #font#
 end macro
 
 macro StoreControl(#control#)
@@ -209,6 +216,50 @@ macro CreateTextEdit(#name#, #x#, #y#, #w#, #h#, #text#, #picture#)
 	#name# -> picture := #picture#
 	#name# -> z_layer := DefaultZLayer
 	StoreControl(#name#)
+end macro
+
+{------------------------KNOB WITH DISPLAY------------------------}
+macro CreateKnobWithDisplay(#name#, #x#, #y#, #w#, #h#, #min#, #max#, #def#, #pers#, #mouse#, #label#, #picture#)	
+	CreateSlider(#name#, #x#, #y#, #w#, #h#, #min#, #max#, #def#, #pers#, #mouse#, #picture#)	
+	CreateLabel(#name#_disp, #x#, #y#, KnobParameterDisplayWidth, 18, #label#, "")
+	#name#_disp -> font_type := KnobParameterDisplayFont
+	#name#_disp -> text_alignment := ALIGN_CENTER
+	#name#_disp -> hide := HIDE_PART_BG
+	declare @#name#_label := #label#
+	MoveKnobWithDisplay(#name#, #x#, #y#)
+end macro
+macro MoveKnobWithDisplay(#name#, #x#, #y#)
+	#name# -> x := #x#
+	#name# -> y := #y#
+	#name#_disp -> x := (#x#) + (#name# -> width / 2) - (KnobParameterDisplayWidth / 2) - 1
+	#name#_disp -> y := (#y#) + #name# -> height + 2
+end macro
+macro UpdateKnobDisplay(#name#, #text#, #suffix#)
+	#name#_disp -> text := #text# & #suffix#
+	#name# -> label := #text# & #suffix#
+end macro
+macro UpdateKnobWithDisplayVisibility(#name#, #visibility#)
+	#name# -> hide := #visibility#
+	if (#visibility# = HIDE_PART_NOTHING)
+		#name#_disp -> hide := HIDE_PART_BG
+	else
+		#name#_disp -> hide := #visibility#
+	end if
+end macro
+
+macro OnKnobWithDisplayHandler(#name#)
+	on ui_control(#name#)
+		call #name#_Handler()
+	end on
+	function #name#_Handler()
+		declare #name#_callback_id := NI_CALLBACK_ID
+end macro
+macro EndOnKnob(#name#)
+		wait(ParameterDisplayTimeoutMS * 1000)
+		if (#name#_callback_id = NI_CALLBACK_ID)
+			#name#_disp -> text := #name#_label
+		end if
+	end function
 end macro
 
 {------------------------RADIO BUTTON------------------------}
