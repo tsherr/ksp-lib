@@ -238,6 +238,10 @@ macro UpdateKnobDisplay(#name#, #text#, #suffix#)
 	#name#_disp -> text := #text# & #suffix#
 	#name# -> label := #text# & #suffix#
 end macro
+macro UpdateKnobLabel(#name#, #label#)
+	#name#_label := #label#
+	#name#_disp -> text := #label#
+end macro
 macro UpdateKnobWithDisplayVisibility(#name#, #visibility#)
 	#name# -> hide := #visibility#
 	if (#visibility# = HIDE_PART_NOTHING)
