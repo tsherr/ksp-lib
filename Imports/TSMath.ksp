@@ -48,8 +48,7 @@ USE_CODE_IF_NOT(TS_MATH_IMPORTED)
 
 	//Scales value in [rangemin, rangemax] to its equivalent position in [newmin, newmax]
 	function ScaleValue(value, rangemin, rangemax, newmin, newmax) -> newvalue
-
-		//TODO: something is not working properly here... can't reach newmax 
+		
 		declare ~temp
 		//determine the new value as a percentage of the new range, then shift as needed
 		temp := (int_to_real(value - rangemin) / int_to_real(rangemax - rangemin))

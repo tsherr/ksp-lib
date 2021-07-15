@@ -32,65 +32,69 @@ Version History:
 	v0.1 - Initial implementation
 }
 
-define QUEUE_EMPTY_VAL := -1
+USE_CODE_IF_NOT(TS_DEBUG_IMPORTED)
+	SET_CONDITION(TS_DEBUG_IMPORTED)
 
-macro CreateQueue(#varname#, #size#)
-	declare #varname#[#size#] := (QUEUE_EMPTY_VAL)
-end macro
+	define QUEUE_EMPTY_VAL := -1
 
-function Enqueue(queue, data) -> result
+	macro CreateQueue(#varname#, #size#)
+		declare #varname#[#size#] := (QUEUE_EMPTY_VAL)
+	end macro
 
-	declare polyphonic i := 0
-	while (i < num_elements(queue) and queue[i] # QUEUE_EMPTY_VAL)
-		inc(i)
-	end while
+	function Enqueue(queue, data) -> result
 
-	if (i < num_elements(queue))
-		queue[i] := data
-		result := 1
-	else
-		result := 0
-	end if
+		declare polyphonic i := 0
+		while (i < num_elements(queue) and queue[i] # QUEUE_EMPTY_VAL)
+			inc(i)
+		end while
 
-end function
+		if (i < num_elements(queue))
+			queue[i] := data
+			result := 1
+		else
+			result := 0
+		end if
 
-function Dequeue(queue) -> data
+	end function
 
-	declare polyphonic i := 0
-	data := queue[0]
+	function Dequeue(queue) -> data
 
-	while i < (num_elements(queue) - 1)
-		queue[i] := queue[i + 1]
-		inc(i)
-	end while
+		declare polyphonic i := 0
+		data := queue[0]
 
-end function
+		while i < (num_elements(queue) - 1)
+			queue[i] := queue[i + 1]
+			inc(i)
+		end while
 
-function Pop(queue)
+	end function
 
-	declare polyphonic i := 0
+	function Pop(queue)
 
-	while i < (num_elements(queue) - 1)
-		queue[i] := queue[i + 1]
-		inc(i)
-	end while
+		declare polyphonic i := 0
 
-end function
+		while i < (num_elements(queue) - 1)
+			queue[i] := queue[i + 1]
+			inc(i)
+		end while
 
-function Peek(queue) -> data
+	end function
 
-	data := queue[0]
+	function Peek(queue) -> data
 
-end function
+		data := queue[0]
 
-function QueueSize(queue) -> data
+	end function
 
-	declare polyphonic i := 0
-	while (i < num_elements(queue) and queue[i] # QUEUE_EMPTY_VAL)
-		inc(i)
-	end while
+	function QueueSize(queue) -> data
 
-	data := i
+		declare polyphonic i := 0
+		while (i < num_elements(queue) and queue[i] # QUEUE_EMPTY_VAL)
+			inc(i)
+		end while
 
-end function
+		data := i
 
+	end function
+
+END_USE_CODE

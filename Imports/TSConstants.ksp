@@ -55,7 +55,7 @@ USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)
 	define MAX_ARRAY_SIZE_5_8 := 1000000 		//>= 5.8.0
 
 	//Groups and zones
-	define MAX_NUM_GROUPS       := 4096			//Maximum number of groups in Kontakt (4096).   //TODO                       : may have changed in 5.8
+	define MAX_NUM_GROUPS       := 4096			//Maximum number of groups in Kontakt (4096).   //TODO: may have changed in 5.8
 	define MAX_NUM_ZONES		:= 131072
 	
 	//GUI related
@@ -65,7 +65,7 @@ USE_CODE_IF_NOT(TS_CONSTANTS_IMPORTED)
 	define KONTAKT_HEADER_HEIGHT_PX := 68
 	define KONTAKT_DEFAULT_WIDTH_PX := 633
 	define MAX_VALUE_EDIT_HEIGHT_PX	:= 18
-	define MAX_NUM_CONTROLS_PER_TYPE := 512 // >= 5.8.0
+	define MAX_NUM_CONTROLS_PER_TYPE := 512 // >= 5.8.0 (Note: 999 as of 6.5.0)
 	
 	//MIDI related
 	define NUM_MIDI_KEYS            := 128

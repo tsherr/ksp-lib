@@ -1,109 +1,113 @@
-{------------------------TODO------------------------}
-//Add taskfunc-alternate versions of functions
+{********************************************TS LIST********************************************}
 
-{-------------------------------------LIST OPERATIONS--------------------------}
-{ -1 is always used to indicate an empty or invalid element}
-define TSLIST.EMPTY := -1
+USE_CODE_IF_NOT(TS_LIST_IMPORTED)
+	SET_CONDITION(TS_LIST_IMPORTED)
 
-{Clears a list}
-function ClearList(list)
-	SetList(list, TSLIST.EMPTY)
-end function
+	{-------------------------------------LIST OPERATIONS--------------------------}
+	{ -1 is always used to indicate an empty or invalid element}
+	define TSLIST.EMPTY := -1
 
-function SetList(list, val)
-	declare set_i
-	for set_i := 0 to num_elements(list) - 1
-		list[set_i] := val
-	end for
-end function
+	{Clears a list}
+	taskfunc ClearList(list)
+		SetList(list, TSLIST.EMPTY)
+	end taskfunc
 
-{Counts the number of elements in a list (the first occurence of TSLIST.EMPTY is off the end of the list)}
-function CountList(list) -> result
-	result := 0
-	while (list[result] # TSLIST.EMPTY)
-		inc(result)
-	end while
-end function
+	taskfunc SetList(list, val)
+		declare set_i
+		for set_i := 0 to num_elements(list) - 1
+			list[set_i] := val
+		end for
+	end taskfunc
 
-{Adds a value to a list}
-function AddToList(list, val) -> success
-	success := FALSE
-	declare add_to_list_index
-	add_to_list_index := 0
-	while ((add_to_list_index < num_elements(list)) and (list[add_to_list_index] # TSLIST.EMPTY))
-		inc(add_to_list_index)
-	end while
-	if (add_to_list_index < num_elements(list))
-		list[add_to_list_index] := val
-		success := TRUE
-	end if
-end function
-
-//TODO: remove by value and by index
-
-function CopyList(from_list, to_list)
-	declare copy_i
-	copy_i := 0
-	while ((copy_i < num_elements(from_list)) and (copy_i < num_elements(to_list)))
-		to_list[copy_i] := from_list[copy_i]
-		inc(copy_i)
-	end while
-end function
-
-{compare_lists()
-Description:
-	Compares two lists of any size, and returns TRUE if they are equal, else FALSE
-Parameters:
-	list1: The first list
-	list2: The second list
-	result: True if the lists are equal, FALSE if they are not (variable is set at the end of the macro)
-Notes:
-	This function assumes that the first occurance of -1 in either list denotes the first garbage element, and any values thereafter are considered non-existent
-}
-function compare_lists(list1, list2) -> result
-	result := -1 {undecided}
-	declare 1len
-	1len := num_elements(list1)
-	declare 2len
-	2len := num_elements(list2)
-	if (1len = 2len)
-		if (array_equal(list1, list2))
-			result := TRUE
-		else
-			result := FALSE
-		end if
-	else			
-
-		{iterate throught the list. Failure conditions:
-			Iteration completes one list while the other still has legitimate values
-			At any point, two legitimate values at the same index differ}
-		declare i
-		i := 0
-		while (result = -1) 
-			if (i >= 1len) {list1 is out of elements}
-				if (i < 2len) {list 2 isn't}
-					if (list2[i] = -1) {list 2 has no more legitimate values}
-						result := TRUE
-					else
-						result := FALSE {list 2 still has more legitimate values}
-					end if
-				end if
-			else if (i >= 2len) {list2 is out ofelements}
-				if (i < 1len) {list 1 isn't}
-					if (list1[i] = -1) {list 1 has no more legitimate values}
-						result := TRUE
-					else
-						result := FALSE {list 1 still has more legitimate values}
-					end if
-				end if
-			else {both lists still have values}
-				if (list1[i] # list2[i]) {values differ}
-					result := FALSE
-				else if ((list1[i] = -1) and (list2[i] = -1) and (result = -1))
-					result := TRUE
-				end if
-			end if
-			inc(i)
+	{Counts the number of elements in a list (the first occurence of TSLIST.EMPTY is off the end of the list)}
+	taskfunc CountList(list) -> result
+		result := 0
+		while (list[result] # TSLIST.EMPTY)
+			inc(result)
 		end while
-	end if
-end function
+	end taskfunc
+
+	{Adds a value to a list}
+	taskfunc AddToList(list, val) -> success
+		success := FALSE
+		declare add_to_list_index
+		add_to_list_index := 0
+		while ((add_to_list_index < num_elements(list)) and (list[add_to_list_index] # TSLIST.EMPTY))
+			inc(add_to_list_index)
+		end while
+		if (add_to_list_index < num_elements(list))
+			list[add_to_list_index] := val
+			success := TRUE
+		end if
+	end taskfunc
+
+	//TODO: remove by value and by index
+
+	taskfunc CopyList(from_list, to_list)
+		declare copy_i
+		copy_i := 0
+		while ((copy_i < num_elements(from_list)) and (copy_i < num_elements(to_list)))
+			to_list[copy_i] := from_list[copy_i]
+			inc(copy_i)
+		end while
+	end taskfunc
+
+	{CompareLists()
+	Description:
+		Compares two lists of any size, and returns TRUE if they are equal, else FALSE
+	Parameters:
+		list1: The first list
+		list2: The second list
+		result: True if the lists are equal, FALSE if they are not (variable is set at the end of the macro)
+	Notes:
+		This taskfunc assumes that the first occurance of -1 in either list denotes the first garbage element, and any values thereafter are considered non-existent
+	}
+	taskfunc CompareLists(list1, list2) -> result
+		result := -1 {undecided}
+		declare 1len
+		1len := num_elements(list1)
+		declare 2len
+		2len := num_elements(list2)
+		if (1len = 2len)
+			if (array_equal(list1, list2))
+				result := TRUE
+			else
+				result := FALSE
+			end if
+		else			
+
+			{iterate throught the list. Failure conditions:
+				Iteration completes one list while the other still has legitimate values
+				At any point, two legitimate values at the same index differ}
+			declare i
+			i := 0
+			while (result = -1) 
+				if (i >= 1len) {list1 is out of elements}
+					if (i < 2len) {list 2 isn't}
+						if (list2[i] = -1) {list 2 has no more legitimate values}
+							result := TRUE
+						else
+							result := FALSE {list 2 still has more legitimate values}
+						end if
+					end if
+				else if (i >= 2len) {list2 is out ofelements}
+					if (i < 1len) {list 1 isn't}
+						if (list1[i] = -1) {list 1 has no more legitimate values}
+							result := TRUE
+						else
+							result := FALSE {list 1 still has more legitimate values}
+						end if
+					end if
+				else {both lists still have values}
+					if (list1[i] # list2[i]) {values differ}
+						result := FALSE
+					else if ((list1[i] = -1) and (list2[i] = -1) and (result = -1))
+						result := TRUE
+					end if
+				end if
+				inc(i)
+			end while
+		end if
+	end taskfunc
+
+END_USE_CODE
