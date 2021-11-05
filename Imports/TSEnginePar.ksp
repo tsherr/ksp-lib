@@ -1,0 +1,66 @@
+function SendFx(fx_type, slot)
+	set_engine_par(ENGINE_PAR_SEND_EFFECT_TYPE, fx_type, -1, slot, 0)
+end function
+
+function BusFx(fx_type, fx_subtype, slot, bus)
+	set_engine_par(ENGINE_PAR_EFFECT_TYPE, fx_type, -1, slot, bus + NI_BUS_OFFSET)
+	if (fx_subtype # -1)
+		set_engine_par(ENGINE_PAR_EFFECT_SUBTYPE, fx_subtype, -1, slot, bus + NI_BUS_OFFSET)
+	end if
+end function
+
+function InsertFx(fx_type, fx_subtype, slot)
+	set_engine_par(ENGINE_PAR_EFFECT_TYPE, fx_type, -1, slot, 1)
+	if (fx_subtype # -1)
+		set_engine_par(ENGINE_PAR_EFFECT_SUBTYPE, fx_subtype, -1, slot, 1)
+	end if
+end function
+
+function GroupFx(fx_type, fx_subtype, slot, group)
+	set_engine_par(ENGINE_PAR_EFFECT_TYPE, fx_type, group, slot, -1)
+	if (fx_subtype # -1)
+		set_engine_par(ENGINE_PAR_EFFECT_SUBTYPE, fx_subtype, group, slot, -1)
+	end if
+end function
+
+
+function SendFxPar(par, value, slot)
+	set_engine_par(par, value, -1, slot, 0)
+end function
+
+function BusFxPar(par, value, slot, bus)
+	set_engine_par(par, value, -1, slot, bus + NI_BUS_OFFSET)
+end function
+
+function InsertFxPar(par, value, slot)
+	set_engine_par(par, value, -1, slot, 1)
+end function
+
+function GroupFxPar(par, value, slot, group)
+	set_engine_par(par, value, group, slot, -1)
+end function
+
+
+function GetSendFxPar(par, slot) -> return
+	return := get_engine_par(par, -1, slot, 0)
+end function
+
+function GetBusFxPar(par, slot, bus) -> return
+	return := get_engine_par(par, -1, slot, bus + NI_BUS_OFFSET)
+end function
+
+function GetBusFxParDisp(par, slot, bus) -> return
+	return := get_engine_par_disp(par, -1, slot, bus + NI_BUS_OFFSET)
+end function
+
+function GetInsertFxPar(par, slot) -> return
+	return := get_engine_par(par, -1, slot, 1)
+end function
+
+function GetInsertFxParDisp(par, slot) -> return
+	return := get_engine_par_disp(par, -1, slot, 1)
+end function
+
+function GetGroupFxPar(par, slot, group) -> return
+	return := get_engine_par(par, group, slot, -1)
+end function

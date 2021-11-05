@@ -89,6 +89,14 @@
 		va_CtrlDbgPropDisp -> y := #y#
 	end macro
 
+	macro HideDebugControls()
+		bu_CtrlDbgCtrlSelPrev -> hide := HIDE_WHOLE_CONTROL
+		bu_CtrlDbgCtrlSelNext -> hide := HIDE_WHOLE_CONTROL
+		me_CtrlDbgCtrlSel -> hide := HIDE_WHOLE_CONTROL
+		me_CtrlDbgPropSel -> hide := HIDE_WHOLE_CONTROL
+		va_CtrlDbgPropDisp -> hide := HIDE_WHOLE_CONTROL
+	end macro
+
 	on ui_control(me_CtrlDbgCtrlSel)
 		call UpdateDebugPropDisp()
 	end on
