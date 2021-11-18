@@ -70,6 +70,18 @@ USE_CODE_IF_NOT(TS_MATH_IMPORTED)
 		end if
 	end function
 
+	//From Koala's math_f.ksp
+	// curve_value shall be a value from -50 to 50. 0 is linear.
+	define CURVE_AMOUNT(curve_value) := ( int_to_real((1000 + curve_value) * 10) / 10000.0 )
+	function CurveValue(curve_value, lin_value, curve_steps, min, max) -> return
+		declare temp 
+		if CURVE_AMOUNT(curve_value) # 1.0
+			return := min + real_to_int( int_to_real(max-min) * (( pow(CURVE_AMOUNT(curve_value), int_to_real(lin_value)) - 1.0 ) / ( pow(CURVE_AMOUNT(curve_value), int_to_real(curve_steps)) - 1.0 ) ) )
+		else 
+			return := min + lin_value*(max-min)/curve_steps
+		end if 
+	end function
+
 	/*
 	function RealRandom(min, max) -> result
 		result := math.scale(int_to_real(random(0, EP_MAX_VAL)), 0.0, int_to_real(EP_MAX_VAL), min, max)
