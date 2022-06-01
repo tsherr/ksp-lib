@@ -84,7 +84,7 @@ USE_CODE_IF_NOT(TS_LIB_IMPORTED)
 	end function
 
 	macro SetArray(#list#, #value#)
-		for TS_i := 0 to num_elements(#list#)
+		for TS_i := 0 to num_elements(#list#) - 1
 			#list#[TS_i] := #value#
 		end for
 	end macro
