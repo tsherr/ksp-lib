@@ -1,25 +1,25 @@
-function SendFx(fx_type, slot)
-	set_engine_par(ENGINE_PAR_SEND_EFFECT_TYPE, fx_type, -1, slot, 0)
+function SendFx(fx_type, slot) -> async_id
+	async_id := set_engine_par(ENGINE_PAR_SEND_EFFECT_TYPE, fx_type, -1, slot, 0)
 end function
 
-function BusFx(fx_type, fx_subtype, slot, bus)
-	set_engine_par(ENGINE_PAR_EFFECT_TYPE, fx_type, -1, slot, bus + NI_BUS_OFFSET)
+function BusFx(fx_type, fx_subtype, slot, bus) -> async_id
+	async_id := set_engine_par(ENGINE_PAR_EFFECT_TYPE, fx_type, -1, slot, bus + NI_BUS_OFFSET)
 	if (fx_subtype # -1)
-		set_engine_par(ENGINE_PAR_EFFECT_SUBTYPE, fx_subtype, -1, slot, bus + NI_BUS_OFFSET)
+		async_id := set_engine_par(ENGINE_PAR_EFFECT_SUBTYPE, fx_subtype, -1, slot, bus + NI_BUS_OFFSET)
 	end if
 end function
 
-function InsertFx(fx_type, fx_subtype, slot)
-	set_engine_par(ENGINE_PAR_EFFECT_TYPE, fx_type, -1, slot, 1)
+function InsertFx(fx_type, fx_subtype, slot) -> async_id
+	async_id := set_engine_par(ENGINE_PAR_EFFECT_TYPE, fx_type, -1, slot, 1)
 	if (fx_subtype # -1)
-		set_engine_par(ENGINE_PAR_EFFECT_SUBTYPE, fx_subtype, -1, slot, 1)
+		async_id := set_engine_par(ENGINE_PAR_EFFECT_SUBTYPE, fx_subtype, -1, slot, 1)
 	end if
 end function
 
-function GroupFx(fx_type, fx_subtype, slot, group)
-	set_engine_par(ENGINE_PAR_EFFECT_TYPE, fx_type, group, slot, -1)
+function GroupFx(fx_type, fx_subtype, slot, group) -> async_id
+	async_id := set_engine_par(ENGINE_PAR_EFFECT_TYPE, fx_type, group, slot, -1)
 	if (fx_subtype # -1)
-		set_engine_par(ENGINE_PAR_EFFECT_SUBTYPE, fx_subtype, group, slot, -1)
+		async_id := set_engine_par(ENGINE_PAR_EFFECT_SUBTYPE, fx_subtype, group, slot, -1)
 	end if
 end function
 
