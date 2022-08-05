@@ -45,6 +45,10 @@ function GetSendFxPar(par, slot) -> return
 	return := get_engine_par(par, -1, slot, 0)
 end function
 
+function GetSendFxParDisp(par, slot) -> return
+	return := get_engine_par_disp(par, -1, slot, 0)
+end function
+
 function GetBusFxPar(par, slot, bus) -> return
 	return := get_engine_par(par, -1, slot, bus + NI_BUS_OFFSET)
 end function
@@ -63,4 +67,8 @@ end function
 
 function GetGroupFxPar(par, slot, group) -> return
 	return := get_engine_par(par, group, slot, -1)
+end function
+
+function GetGroupFxParDisp(par, slot, group) -> return
+	return := get_engine_par_disp(par, group, slot, -1)
 end function
